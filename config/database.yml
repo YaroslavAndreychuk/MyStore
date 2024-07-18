@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: yaroslav
+  password: root
+  host: localhost
+
+development:
+  <<: *default
+  database: mystore1_development
+
+test:
+  <<: *default
+  database: mystore1_test
+
+production:
+  <<: *default
+  database: mystore1_production
+  username: mystore
+  password: <%= ENV['MYSTORE_DATABASE_PASSWORD'] %>
