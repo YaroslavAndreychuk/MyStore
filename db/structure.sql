@@ -31,13 +31,39 @@ CREATE TABLE public.ar_internal_metadata (
 
 CREATE TABLE public.products (
     id bigint NOT NULL,
-    name character varying,
-    description text,
-    price numeric(10,2) DEFAULT 0.0,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    stock_quantity integer
+    updated_at timestamp(6) without time zone NOT NULL
 );
+
+
+--
+-- Name: products1s; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.products1s (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: products1s_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.products1s_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: products1s_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.products1s_id_seq OWNED BY public.products1s.id;
 
 
 --
@@ -110,6 +136,13 @@ ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.pro
 
 
 --
+-- Name: products1s id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.products1s ALTER COLUMN id SET DEFAULT nextval('public.products1s_id_seq'::regclass);
+
+
+--
 -- Name: products_copy id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -122,6 +155,14 @@ ALTER TABLE ONLY public.products_copy ALTER COLUMN id SET DEFAULT nextval('publi
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: products1s products1s_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.products1s
+    ADD CONSTRAINT products1s_pkey PRIMARY KEY (id);
 
 
 --
@@ -156,19 +197,15 @@ CREATE UNIQUE INDEX index_products_copy_on_name ON public.products_copy USING bt
 
 
 --
--- Name: index_products_on_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_products_on_name ON public.products USING btree (name);
-
-
---
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240718154908'),
+('20240718154229'),
+('20240718154143'),
 ('20240718153500'),
 ('20240718153303'),
 ('20240718153139'),
