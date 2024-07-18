@@ -36,8 +36,7 @@ CREATE TABLE public.products (
     quantity_in_stock integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    stock_quantity integer,
-    description text
+    stock_quantity integer
 );
 
 
@@ -208,6 +207,7 @@ CREATE UNIQUE INDEX index_products_copy_on_name ON public.products_copy USING bt
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240718160606'),
 ('20240718160323'),
 ('20240718160145'),
 ('20240718154908'),
