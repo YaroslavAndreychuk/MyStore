@@ -26,40 +26,6 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
--- Name: items; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.items (
-    id bigint NOT NULL,
-    name character varying NOT NULL,
-    description text,
-    price numeric(10,2) DEFAULT 0.0 NOT NULL,
-    stock_quantity integer DEFAULT 0 NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.items_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.items_id_seq OWNED BY public.items.id;
-
-
---
 -- Name: products; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -72,6 +38,40 @@ CREATE TABLE public.products (
     updated_at timestamp(6) without time zone NOT NULL,
     stock_quantity integer
 );
+
+
+--
+-- Name: products_copy; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.products_copy (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    description text,
+    price numeric(10,2) DEFAULT 0.0 NOT NULL,
+    stock_quantity integer DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: products_copy_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.products_copy_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: products_copy_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.products_copy_id_seq OWNED BY public.products_copy.id;
 
 
 --
@@ -103,17 +103,17 @@ CREATE TABLE public.schema_migrations (
 
 
 --
--- Name: items id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.items ALTER COLUMN id SET DEFAULT nextval('public.items_id_seq'::regclass);
-
-
---
 -- Name: products id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.products_id_seq'::regclass);
+
+
+--
+-- Name: products_copy id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.products_copy ALTER COLUMN id SET DEFAULT nextval('public.products_copy_id_seq'::regclass);
 
 
 --
@@ -125,11 +125,11 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
--- Name: items items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: products_copy products_copy_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.items
-    ADD CONSTRAINT items_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.products_copy
+    ADD CONSTRAINT products_copy_pkey PRIMARY KEY (id);
 
 
 --
@@ -149,10 +149,10 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
--- Name: index_items_on_name; Type: INDEX; Schema: public; Owner: -
+-- Name: index_products_copy_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_items_on_name ON public.items USING btree (name);
+CREATE UNIQUE INDEX index_products_copy_on_name ON public.products_copy USING btree (name);
 
 
 --
@@ -169,6 +169,7 @@ CREATE UNIQUE INDEX index_products_on_name ON public.products USING btree (name)
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240718153500'),
 ('20240718153303'),
 ('20240718153139'),
 ('20240718152319'),
