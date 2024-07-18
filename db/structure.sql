@@ -31,8 +31,13 @@ CREATE TABLE public.ar_internal_metadata (
 
 CREATE TABLE public.products (
     id bigint NOT NULL,
+    name character varying,
+    description text,
+    price numeric,
+    quantity_in_stock integer,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    stock_quantity integer
 );
 
 
@@ -203,6 +208,7 @@ CREATE UNIQUE INDEX index_products_copy_on_name ON public.products_copy USING bt
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240718160145'),
 ('20240718154908'),
 ('20240718154229'),
 ('20240718154143'),
